@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Vision UI Design System - Inspired by https://demos.creative-tim.com/vision-ui-dashboard-react/ */
+
+@layer base {
+  :root {
+    /* Vision UI Color Palette */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    
+    --card: 224 71% 4%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 224 71% 4%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 263 70% 50.4%;
+    --primary-foreground: 0 0% 98%;
+    
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+    
+    --accent: 216 12.2% 83.9%;
+    --accent-foreground: 222.2 84% 4.9%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263 70% 50.4%;
+    
+    --radius: 0.75rem;
+    
+    /* Vision UI Custom Colors */
+    --vision-blue: 200 100% 58%;
+    --vision-purple: 263 70% 50.4%;
+    --vision-pink: 326 78% 55%;
+    --vision-navy: 224 71% 4%;
+    --vision-dark-blue: 220 39% 11%;
+    --vision-light-blue: 200 20% 98%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--vision-blue)), hsl(var(--vision-purple)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--vision-purple)), hsl(var(--vision-pink)));
+    --gradient-card: linear-gradient(127deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);
+    --gradient-glass: linear-gradient(127deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    
+    /* Shadows */
+    --shadow-glow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
+    --shadow-primary: 0 10px 30px -5px hsla(var(--vision-purple), 0.4);
+    --shadow-blue: 0 10px 30px -5px hsla(var(--vision-blue), 0.3);
+    
+    /* Sidebar */
+    --sidebar-background: 224 71% 4%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 263 70% 50.4%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 215 27.9% 16.9%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 215 27.9% 16.9%;
+    --sidebar-ring: 263 70% 50.4%;
+  }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 224 71% 4%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 224 71% 4%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71% 4%;
+    
+    --primary: 263 70% 50.4%;
+    --primary-foreground: 0 0% 98%;
+    
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 224 71% 4%;
+    
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 224 71% 4%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 263 70% 50.4%;
+    
+    --gradient-card: linear-gradient(127deg, rgba(255, 255, 255, 0.8) 19.41%, rgba(255, 255, 255, 0.6) 76.65%);
+    --gradient-glass: linear-gradient(127deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
+    
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 224 71% 4%;
+    --sidebar-primary: 263 70% 50.4%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 210 40% 96.1%;
+    --sidebar-accent-foreground: 224 71% 4%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 263 70% 50.4%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-inter;
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--vision-navy)) 100%);
+    min-height: 100vh;
+  }
+  
+  /* Custom scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 3px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
+  }
+}
+
+@layer components {
+  /* Glass morphism effects */
+  .glass-card {
+    background: var(--gradient-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  
+  .vision-card {
+    background: var(--gradient-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* Button animations */
+  .btn-glow {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  .btn-glow:hover::before {
+    left: 100%;
+  }
+  
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: var(--shadow-primary);
+  }
+  
+  .glow-blue {
+    box-shadow: var(--shadow-blue);
+  }
+  
+  /* Chart gradients */
+  .chart-gradient-blue {
+    background: linear-gradient(180deg, hsl(var(--vision-blue)) 0%, transparent 100%);
+  }
+  
+  .chart-gradient-purple {
+    background: linear-gradient(180deg, hsl(var(--vision-purple)) 0%, transparent 100%);
+  }
+}
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.font-inter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Animation keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary)), 0 0 15px hsl(var(--primary)); }
+  50% { box-shadow: 0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary)), 0 0 30px hsl(var(--primary)); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
