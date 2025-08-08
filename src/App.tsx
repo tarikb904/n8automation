@@ -12,6 +12,7 @@ import Workflows from "./pages/Workflows";
 import Pricing from "./pages/Pricing";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import WorkflowView from "./pages/WorkflowView";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,11 @@ const App = () => (
               <Route path="/workflows" element={
                 <ProtectedRoute>
                   <Workflows />
+                </ProtectedRoute>
+              } />
+              <Route path="/workflows/view/:id" element={
+                <ProtectedRoute>
+                  <WorkflowView />
                 </ProtectedRoute>
               } />
               <Route path="/pricing" element={

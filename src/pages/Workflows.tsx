@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,11 +20,20 @@ import {
 // categories are derived dynamically below
 const complexityLevels = ["All", "beginner", "intermediate", "advanced"];
 
+// Utility to clean workflow name (same as in hook)
+function cleanName(rawName: string) {
+  const nameWithoutPrefix = rawName.replace(/^\d+_*/, "");
+  const words = nameWithoutPrefix.split(/[_\s]+/);
+  const capitalized = words.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+  return capitalized.join(" ");
+}
+
 export default function Workflows() {
   const { workflows, loading, error, downloadWorkflow } = useGithubWorkflows();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedComplexity, setSelectedComplexity] = useState("All");
+  const navigate = useNavigate();
 
   const categories = useMemo(() => {
     const unique = Array.from(new Set(workflows.map((w) => w.category)));
@@ -207,7 +217,11 @@ export default function Workflows() {
                   </div>
                   
                   <div className="flex items-center gap-2 pt-2">
-                    <Button size="sm" className="flex-1 bg-gradient-primary hover:opacity-90" onClick={() => window.open((workflow as any).htmlUrl, "_blank")}> 
+                    <Button 
+                      size="sm" 
+                      className="flex-1 bg-gradient-primary hover:opacity-90" 
+                      onClick={() => navigate(`/workflows/view/${workflow.id}`)}
+                    > 
                       <Eye className="h-3 w-3 mr-2" />
                       View
                     </Button>
@@ -215,7 +229,7 @@ export default function Workflows() {
                       size="sm" 
                       variant="outline" 
                       className="btn-glow"
-                      onClick={() => handleDownload({ rawUrl: (workflow as any).rawUrl, name: workflow.name })}
+                      onClick={() => handleDownload({ rawUrl: workflow.rawUrl, name: workflow.name })}
                     >
                       <Download className="h-3 w-3" />
                     </Button>

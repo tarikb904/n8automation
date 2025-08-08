@@ -38,6 +38,20 @@ const OWNER = "Zie619";
 const REPO = "n8n-workflows";
 const DEFAULT_BRANCHES = ["main", "master"] as const;
 
+// Utility to clean workflow name
+function cleanName(rawName: string) {
+  // Remove numeric prefix and underscores, then capitalize words
+  const nameWithoutPrefix = rawName.replace(/^\d+_*/, "");
+  const words = nameWithoutPrefix.split(/[_\s]+/);
+  const capitalized = words.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+  return capitalized.join(" ");
+}
+
+// Utility to generate friendly description
+function generateDescription(name: string) {
+  return `Automation workflow: ${name}`;
+}
+
 export function useGithubWorkflows() {
   const [workflows, setWorkflows] = useState<GithubWorkflowItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -78,7 +92,8 @@ export function useGithubWorkflows() {
         .filter((item) => item.type === "blob" && /\.json$/i.test(item.path))
         .map<GithubWorkflowItem>((item) => {
           const fileName = item.path.split("/").pop() || item.path;
-          const name = fileName.replace(/\.json$/i, "");
+          const rawName = fileName.replace(/\.json$/i, "");
+          const name = cleanName(rawName);
           const category = item.path.includes("/")
             ? item.path.split("/")[0]
             : "GitHub";
@@ -87,7 +102,7 @@ export function useGithubWorkflows() {
           return {
             id: item.sha,
             name,
-            description: `n8n workflow from ${OWNER}/${REPO}/${item.path}`,
+            description: generateDescription(name),
             category,
             complexity: "beginner",
             integrations: [],
@@ -121,7 +136,7 @@ export function useGithubWorkflows() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${fileName}.json`;
+      a.download = `${cleanName(fileName)}.json`;
       document.body.appendChild(a);
       a.click();
       a.remove();
