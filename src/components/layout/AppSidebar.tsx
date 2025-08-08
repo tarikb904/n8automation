@@ -1,167 +1,72 @@
-import { 
-  LayoutDashboard, 
-  Search, 
-  Settings, 
-  CreditCard, 
-  Users, 
-  FileText, 
-  Zap,
-  Shield,
-  Crown,
-  Database
-} from "lucide-react";
-import { NavLink, useLocation } from "react-router-dom";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarHeader,
-  SidebarFooter,
-  useSidebar,
-} from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
+"use client";
 
-const navigationItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Workflows", url: "/workflows", icon: Zap },
-  { title: "Search", url: "/search", icon: Search },
-  { title: "Analytics", url: "/analytics", icon: Database },
+import React, { useState, useMemo } from "react";
+import { NavLink } from "react-router-dom";
+import { SidebarMenuButton } from "../ui/sidebar-menu-button";
+import { Search } from "lucide-react";
+import { Input } from "../ui/input";
+import { cn } from "../../lib/utils";
+
+const navItems = [
+  { label: "Dashboard", url: "/" },
+  { label: "Workflows", url: "/workflows" },
+  { label: "Profile", url: "/profile" },
+  { label: "Settings", url: "/settings" },
+  // Add other nav items here as needed
 ];
 
-const accountItems = [
-  { title: "Pricing", url: "/pricing", icon: CreditCard },
-  { title: "Team", url: "/team", icon: Users },
-  { title: "Settings", url: "/settings", icon: Settings },
-];
+function getNavClassName(url: string) {
+  return ({ isActive }: { isActive: boolean }) =>
+    cn(
+      "w-full rounded-lg py-2 text-sm font-medium transition-colors",
+      isActive
+        ? "bg-primary text-primary-foreground"
+        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+    );
+}
 
-const adminItems = [
-  { title: "Admin Panel", url: "/admin", icon: Shield },
-  { title: "Documentation", url: "/docs", icon: FileText },
-];
+const AppSidebar = () => {
+  const [search, setSearch] = useState("");
 
-export function AppSidebar() {
-  const { state } = useSidebar();
-  const location = useLocation();
-  const currentPath = location.pathname;
-  const collapsed = state === "collapsed";
-
-  const isActive = (path: string) => {
-    if (path === "/") return currentPath === "/";
-    return currentPath.startsWith(path);
-  };
-
-  const getNavClassName = (path: string) =>
-    isActive(path)
-      ? "bg-gradient-primary text-white font-medium glow-primary"
-      : "hover:bg-sidebar-accent/50 text-sidebar-foreground";
+  const filteredNavItems = useMemo(() => {
+    if (!search.trim()) return navItems;
+    const lowerSearch = search.toLowerCase();
+    return navItems.filter((item) =>
+      item.label.toLowerCase().includes(lowerSearch)
+    );
+  }, [search]);
 
   return (
-    <Sidebar className="vision-card border-r-0">
-      <SidebarHeader className="p-6 border-b border-border/10">
-        <div className="flex items-center gap-3">
-          {collapsed ? (
-            <img src="/lovable-uploads/05251343-4251-4d60-81d9-c8bcf1e0377b.png" alt="BotLibrary logo" className="h-8 w-8 rounded" />
-          ) : (
-            <>
-              <img src="/lovable-uploads/05251343-4251-4d60-81d9-c8bcf1e0377b.png" alt="BotLibrary logo" className="h-8 w-8 rounded" />
-              <div>
-                <h2 className="text-lg font-semibold text-white">BotLibrary</h2>
-                <p className="text-sm text-white/70">All Workflows</p>
-              </div>
-            </>
-          )}
+    <aside className="flex flex-col w-64 h-full border-r border-border bg-background p-4">
+      <div className="mb-4">
+        <div className="relative">
+          <Input
+            type="text"
+            placeholder="Search..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-10"
+            aria-label="Search navigation"
+          />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
         </div>
-      </SidebarHeader>
+      </div>
 
-      <SidebarContent className="p-4">
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-            Main
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="h-12 rounded-lg">
-                    <NavLink 
-                      to={item.url} 
-                      className={`flex items-center gap-3 px-3 transition-all duration-200 ${getNavClassName(item.url)}`}
-                    >
-                      <item.icon className="h-5 w-5" />
-                      {!collapsed && <span className="font-medium">{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-            Account
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {accountItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="h-12 rounded-lg">
-                    <NavLink 
-                      to={item.url} 
-                      className={`flex items-center gap-3 px-3 transition-all duration-200 ${getNavClassName(item.url)}`}
-                    >
-                      <item.icon className="h-5 w-5" />
-                      {!collapsed && <span className="font-medium">{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-            Admin
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {adminItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="h-12 rounded-lg">
-                    <NavLink 
-                      to={item.url} 
-                      className={`flex items-center gap-3 px-3 transition-all duration-200 ${getNavClassName(item.url)}`}
-                    >
-                      <item.icon className="h-5 w-5" />
-                      {!collapsed && <span className="font-medium">{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-
-      <SidebarFooter className="p-4">
-        <Button 
-          className="w-full bg-gradient-secondary hover:opacity-90 transition-opacity btn-glow"
-          size={collapsed ? "icon" : "default"}
-        >
-          {collapsed ? <Crown className="h-4 w-4" /> : (
-            <>
-              <Crown className="h-4 w-4 mr-2" />
-              Upgrade to Pro
-            </>
-          )}
-        </Button>
-      </SidebarFooter>
-    </Sidebar>
+      <nav className="flex flex-col space-y-1 overflow-y-auto">
+        {filteredNavItems.length > 0 ? (
+          filteredNavItems.map((item) => (
+            <SidebarMenuButton asChild className="h-12 rounded-lg" key={item.url}>
+              <NavLink to={item.url} className={getNavClassName(item.url)}>
+                {item.label}
+              </NavLink>
+            </SidebarMenuButton>
+          ))
+        ) : (
+          <p className="text-sm text-muted-foreground px-3">No results found.</p>
+        )}
+      </nav>
+    </aside>
   );
-}
+};
+
+export default AppSidebar;
