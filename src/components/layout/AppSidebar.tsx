@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from "react";
 import { NavLink } from "react-router-dom";
-import { SidebarMenuButton } from "../ui/sidebar-menu-button";
 import { Search } from "lucide-react";
 import { Input } from "../ui/input";
 import { cn } from "../../lib/utils";
@@ -18,7 +17,7 @@ const navItems = [
 function getNavClassName(url: string) {
   return ({ isActive }: { isActive: boolean }) =>
     cn(
-      "w-full rounded-lg py-2 text-sm font-medium transition-colors",
+      "w-full rounded-lg py-2 text-sm font-medium transition-colors block px-3",
       isActive
         ? "bg-primary text-primary-foreground"
         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -55,11 +54,13 @@ const AppSidebar = () => {
       <nav className="flex flex-col space-y-1 overflow-y-auto">
         {filteredNavItems.length > 0 ? (
           filteredNavItems.map((item) => (
-            <SidebarMenuButton asChild className="h-12 rounded-lg" key={item.url}>
-              <NavLink to={item.url} className={getNavClassName(item.url)}>
-                {item.label}
-              </NavLink>
-            </SidebarMenuButton>
+            <NavLink
+              key={item.url}
+              to={item.url}
+              className={getNavClassName(item.url)}
+            >
+              {item.label}
+            </NavLink>
           ))
         ) : (
           <p className="text-sm text-muted-foreground px-3">No results found.</p>
