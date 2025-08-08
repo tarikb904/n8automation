@@ -24,7 +24,7 @@ function getNavClassName(url: string) {
     );
 }
 
-const AppSidebar = () => {
+export function AppSidebar() {
   const [search, setSearch] = useState("");
 
   const filteredNavItems = useMemo(() => {
@@ -68,6 +68,4 @@ const AppSidebar = () => {
       </nav>
     </aside>
   );
-};
-
-export default AppSidebar;
+}
