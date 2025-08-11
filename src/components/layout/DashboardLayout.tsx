@@ -1,5 +1,6 @@
 import React from "react";
-import AppSidebar from "./AppSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "./AppSidebar";
 import { TopNavbar } from "./TopNavbar";
 
 interface DashboardLayoutProps {
@@ -8,14 +9,16 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="min-h-screen flex w-full bg-background">
-      <AppSidebar />
-      <div className="flex-1 flex flex-col">
-        <TopNavbar />
-        <main className="flex-1 p-6 overflow-auto">
-          {children}
-        </main>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-background">
+        <AppSidebar />
+        <div className="flex-1 flex flex-col">
+          <TopNavbar />
+          <main className="flex-1 p-6 overflow-auto">
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

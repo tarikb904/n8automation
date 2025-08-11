@@ -67,36 +67,6 @@ export type Database = {
           },
         ]
       }
-      payment_gateways: {
-        Row: {
-          config: Json
-          created_at: string | null
-          gateway_type: string
-          id: string
-          is_active: boolean | null
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          config: Json
-          created_at?: string | null
-          gateway_type: string
-          id?: string
-          is_active?: boolean | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          config?: Json
-          created_at?: string | null
-          gateway_type?: string
-          id?: string
-          is_active?: boolean | null
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -128,51 +98,6 @@ export type Database = {
           email?: string | null
           id?: string
           role?: string | null
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
-      subscription_plans: {
-        Row: {
-          billing_period: string
-          created_at: string | null
-          currency: string
-          features: Json | null
-          id: string
-          is_active: boolean | null
-          max_activations: number | null
-          max_users: number | null
-          name: string
-          price: number
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          billing_period?: string
-          created_at?: string | null
-          currency?: string
-          features?: Json | null
-          id?: string
-          is_active?: boolean | null
-          max_activations?: number | null
-          max_users?: number | null
-          name: string
-          price: number
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          billing_period?: string
-          created_at?: string | null
-          currency?: string
-          features?: Json | null
-          id?: string
-          is_active?: boolean | null
-          max_activations?: number | null
-          max_users?: number | null
-          name?: string
-          price?: number
           updated_at?: string | null
           user_id?: string
         }
@@ -215,13 +140,10 @@ export type Database = {
         Row: {
           category: string
           complexity: string
-          content: Json | null
           created_at: string | null
           created_by: string | null
           description: string | null
           downloads: number | null
-          github_path: string | null
-          github_url: string | null
           id: string
           integrations: string[] | null
           is_active: boolean | null
@@ -234,13 +156,10 @@ export type Database = {
         Insert: {
           category: string
           complexity: string
-          content?: Json | null
           created_at?: string | null
           created_by?: string | null
           description?: string | null
           downloads?: number | null
-          github_path?: string | null
-          github_url?: string | null
           id?: string
           integrations?: string[] | null
           is_active?: boolean | null
@@ -253,13 +172,10 @@ export type Database = {
         Update: {
           category?: string
           complexity?: string
-          content?: Json | null
           created_at?: string | null
           created_by?: string | null
           description?: string | null
           downloads?: number | null
-          github_path?: string | null
-          github_url?: string | null
           id?: string
           integrations?: string[] | null
           is_active?: boolean | null
@@ -284,22 +200,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      categorize_workflow: {
-        Args: { file_path: string; workflow_name: string }
-        Returns: string
-      }
-      determine_complexity: {
-        Args: { workflow_content: string }
-        Returns: string
-      }
-      extract_integrations: {
-        Args: { workflow_content: string }
-        Returns: string[]
-      }
-      process_workflow_name: {
-        Args: { raw_name: string }
-        Returns: string
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
